@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.6-pg17
+    environment:
+      POSTGRES_USER: vectorlab
+      POSTGRES_PASSWORD: vectorlab
+      POSTGRES_DB: vectorlab
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vectorlab -d vectorlab"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  weaviate:
+    image: cr.weaviate.io/semitechnologies/weaviate:1.39.5
+    command: ["--host", "0.0.0.0", "--port", "8080", "--scheme", "http"]
+    environment:
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: /var/lib/weaviate
+      CLUSTER_HOSTNAME: node1
+      QUERY_DEFAULTS_LIMIT: "25"
+    ports:
+      - "127.0.0.1:8081:8080"
+      - "127.0.0.1:50052:50051"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+
+volumes:
+  postgres_data:
+  weaviate_data:

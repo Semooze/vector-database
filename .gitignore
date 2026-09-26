@@ -1,0 +1,8 @@
+.env
+.data/
+web/node_modules/
+web/build/
+worker/.venv/
+worker/__pycache__/
+*.pyc
+.DS_Store
