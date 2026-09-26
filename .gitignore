@@ -2,6 +2,7 @@
 .data/
 web/node_modules/
 web/build/
+web/.react-router/
 worker/.venv/
 worker/__pycache__/
 *.pyc
